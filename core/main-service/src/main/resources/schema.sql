@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS ewm.compilation_event(
     event_id BIGINT NOT NULL,
     CONSTRAINT pk_compilation_evet PRIMARY KEY (compilation_id, event_id),
     CONSTRAINT fk_compilation_event_compilation FOREIGN KEY(compilation_id) REFERENCES ewm.compilations(id) ON DELETE CASCADE,
-    CONSTRAINT fk_compilation_event_event FOREIGN KEY(event_id) REFERENCES events(id) ON DELETE CASCADE
+    CONSTRAINT fk_compilation_event_event FOREIGN KEY(event_id) REFERENCES ewm.events(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ewm.requests(
