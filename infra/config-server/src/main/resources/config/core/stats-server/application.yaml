@@ -8,7 +8,7 @@ spring:
 
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:6541/postgres?currentSchema=ewm_stats
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=ewm_stats
     username: postgres
     password: password
 
