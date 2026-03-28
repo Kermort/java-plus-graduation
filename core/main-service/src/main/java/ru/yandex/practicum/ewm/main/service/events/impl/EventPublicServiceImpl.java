@@ -19,8 +19,8 @@ import ru.yandex.practicum.ewm.main.model.events.params.PublicEventSearchParams;
 import ru.yandex.practicum.ewm.main.repository.events.EventsRepository;
 import ru.yandex.practicum.ewm.main.service.events.EventPublicService;
 import ru.yandex.practicum.ewm.main.service.request.ParticipationRequestValidator;
-import ru.practicum.ewm.stats.dto.EndpointHitDto;
-import ru.practicum.ewm.stats.dto.ViewStatsDto;
+import ru.yandex.practicum.ewm.stats.dto.EndpointHitDto;
+import ru.yandex.practicum.ewm.stats.dto.ViewStatsDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

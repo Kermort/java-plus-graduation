@@ -1,7 +1,7 @@
 package ru.yandex.practicum.ewm.stats.server.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.ewm.stats.dto.EndpointHitDto;
+import ru.yandex.practicum.ewm.stats.dto.EndpointHitDto;
 import ru.yandex.practicum.ewm.stats.server.model.Hit;
 
 import java.time.LocalDateTime;

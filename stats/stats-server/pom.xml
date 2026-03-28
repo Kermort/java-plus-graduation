@@ -14,7 +14,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>ru.practicum</groupId>
+            <groupId>ru.yandex.practicum</groupId>
             <artifactId>stats-dto</artifactId>
             <version>${project.version}</version>
         </dependency>

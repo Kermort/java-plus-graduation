@@ -1,7 +1,7 @@
 package ru.yandex.practicum.ewm.stats.server.service;
 
-import ru.practicum.ewm.stats.dto.EndpointHitDto;
-import ru.practicum.ewm.stats.dto.ViewStatsDto;
+import ru.yandex.practicum.ewm.stats.dto.EndpointHitDto;
+import ru.yandex.practicum.ewm.stats.dto.ViewStatsDto;
 
 import java.util.List;
 
