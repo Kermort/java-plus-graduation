@@ -3,6 +3,9 @@ package ru.yandex.practicum.ewm.main.service.category;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.ewm.main.exception.ConflictException;
 import ru.yandex.practicum.ewm.main.exception.NotFoundException;
@@ -60,7 +63,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAllCategories(Long from, Long size) {
-        return categoryRepository.findCategoriesWithParameters(from, size)
+        Pageable pageable = PageRequest.of(from.intValue() / size.intValue(), size.intValue());
+        Page<Category> page = categoryRepository.findAll(pageable);
+        return page.getContent()
                 .stream()
                 .map(CategoryDtoMapper::toDto)
                 .collect(Collectors.toList());

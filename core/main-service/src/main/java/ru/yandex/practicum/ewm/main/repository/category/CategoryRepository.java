@@ -1,15 +1,12 @@
 package ru.yandex.practicum.ewm.main.repository.category;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import ru.yandex.practicum.ewm.main.model.category.Category;
 
-import java.util.List;
-
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    @Query(value = "SELECT * FROM categories ORDER BY id LIMIT ?2 OFFSET ?1",
-            nativeQuery = true)
-    List<Category> findCategoriesWithParameters(Long from, Long size);
+    Page<Category> findAll(Pageable pageable);
 
     boolean existsByName(String name);
 }
