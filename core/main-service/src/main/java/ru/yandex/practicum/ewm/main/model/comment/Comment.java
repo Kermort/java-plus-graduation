@@ -9,7 +9,7 @@ import ru.yandex.practicum.ewm.main.model.user.User;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "comments")
+@Table(name = "comments", schema = "ewm")
 @Builder
 @Getter
 @Setter

@@ -15,7 +15,7 @@ import ru.yandex.practicum.ewm.main.repository.compilation.CompilationEventCompo
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "compilation_event")
+@Table(name = "compilation_event", schema = "ewm")
 @IdClass(CompilationEventCompositeKey.class)
 public class CompilationEvent {
     @Id

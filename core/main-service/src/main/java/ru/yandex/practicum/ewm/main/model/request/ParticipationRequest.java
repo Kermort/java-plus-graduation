@@ -10,7 +10,7 @@ import ru.yandex.practicum.ewm.main.model.user.User;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "requests")
+@Table(name = "requests", schema = "ewm")
 @Builder
 @Getter
 @Setter
