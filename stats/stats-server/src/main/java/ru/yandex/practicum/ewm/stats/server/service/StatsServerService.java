@@ -1,0 +1,12 @@
+package ru.yandex.practicum.ewm.stats.server.service;
+
+import ru.yandex.practicum.ewm.stats.dto.EndpointHitDto;
+import ru.yandex.practicum.ewm.stats.dto.ViewStatsDto;
+
+import java.util.List;
+
+public interface StatsServerService {
+    EndpointHitDto saveHit(EndpointHitDto hitDto);
+
+    List<ViewStatsDto> getStats(String start, String end, List<String> uris, Boolean unique);
+}
