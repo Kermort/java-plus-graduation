@@ -10,7 +10,6 @@ import ru.yandex.practicum.ewm.stats.dto.ViewStatsDto;
 
 import java.util.List;
 
-//@FeignClient(name = "stats-service", url = "${stats-service.url}")
 @FeignClient(name = "stats-server")
 public interface StatsClient {
     @PostMapping("/hit")
