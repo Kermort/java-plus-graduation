@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS ewm_compilations.compilations(
 CREATE TABLE IF NOT EXISTS ewm_compilations.compilation_event(
     compilation_id BIGINT NOT NULL,
     event_id BIGINT NOT NULL,
-    CONSTRAINT pk_compilation_evet PRIMARY KEY (compilation_id, event_id)
+    CONSTRAINT pk_compilation_event PRIMARY KEY (compilation_id, event_id)
 );
 

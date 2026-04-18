@@ -25,7 +25,7 @@ public class CompilationAdminController {
     }
 
     @PatchMapping("/{compId}")
-    public ResponseEntity<CompilationDto> patch(@RequestBody UpdateCompilationRequest dto,
+    public ResponseEntity<CompilationDto> patch(@RequestBody @Valid UpdateCompilationRequest dto,
                                                 @PathVariable Long compId) {
         CompilationDto result = compilationService.patch(dto, compId);
         return ResponseEntity.ok(result);

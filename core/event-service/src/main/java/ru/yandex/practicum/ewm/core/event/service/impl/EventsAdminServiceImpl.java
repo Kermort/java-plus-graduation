@@ -92,7 +92,7 @@ public class EventsAdminServiceImpl implements EventsAdminService {
             }
             event.setState(EventState.PUBLISHED);
             event.setPublishedOn(LocalDateTime.now());
-        } else if (updateRequest.getStateAction() == StateActionAdminUpdateEvent.REJECT_EVENT) {
+        } else {
             if (event.getState() == EventState.PUBLISHED) {
                 throw new ConflictException("Нельзя отклонить уже опубликованное событие");
             }

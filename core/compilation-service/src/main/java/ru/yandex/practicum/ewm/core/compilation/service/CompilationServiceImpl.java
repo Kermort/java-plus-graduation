@@ -18,6 +18,7 @@ import ru.yandex.practicum.ewm.api.exception.ValidationException;
 import ru.yandex.practicum.ewm.api.user.UserFeignClient;
 import ru.yandex.practicum.ewm.api.user.dto.UserShortDto;
 import ru.yandex.practicum.ewm.core.compilation.mapper.CompilationMapper;
+import ru.yandex.practicum.ewm.core.compilation.mapper.EventDtoMapper;
 import ru.yandex.practicum.ewm.core.compilation.model.Compilation;
 import ru.yandex.practicum.ewm.core.compilation.model.CompilationEvent;
 import ru.yandex.practicum.ewm.core.compilation.model.params.PublicCompilationSearchParams;
@@ -61,7 +62,7 @@ public class CompilationServiceImpl implements CompilationService {
             compilationEventRepository.saveAll(list);
 
             return CompilationMapper.toDto(savedCompilation,
-                    events.stream().map(e -> toEventShortDto(e, userDtos.get(e.initiatorId()))).toList());
+                    events.stream().map(e -> EventDtoMapper.toEventShortDto(e, userDtos.get(e.initiatorId()))).toList());
         } catch (DataIntegrityViolationException e) {
             throw new ConflictException(e.getMessage());
         }
@@ -70,9 +71,6 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     @Transactional
     public CompilationDto patch(UpdateCompilationRequest updateDto, Long compId) {
-        if (updateDto.getTitle() != null && (updateDto.getTitle().length() > 50 || updateDto.getTitle().isEmpty())) {
-            throw new ValidationException("заголовок подборки должен быть в диапазоне от 1 до 50 символов");
-        }
         Compilation updateCompilation = compilationRepository.findById(compId)
                 .orElseThrow(() -> new NotFoundException("не найдена подборка с id " + compId));
 
@@ -108,7 +106,7 @@ public class CompilationServiceImpl implements CompilationService {
             List<CompilationEvent> list = events.stream().map(e -> new CompilationEvent(savedCompilation.getId(), e.id())).toList();
             compilationEventRepository.saveAll(list);
             return CompilationMapper.toDto(savedCompilation,
-                    events.stream().map(e -> toEventShortDto(e, userDtos.get(e.initiatorId()))).toList());
+                    events.stream().map(e -> EventDtoMapper.toEventShortDto(e, userDtos.get(e.initiatorId()))).toList());
         } catch (DataIntegrityViolationException e) {
             throw new ConflictException(e.getMessage());
         }
@@ -137,7 +135,7 @@ public class CompilationServiceImpl implements CompilationService {
                 .collect(Collectors.toMap(UserShortDto::id, u -> u));
 
         return CompilationMapper.toDto(compilation,
-                events.stream().map(e -> toEventShortDto(e, userDtos.get(e.initiatorId()))).toList());
+                events.stream().map(e -> EventDtoMapper.toEventShortDto(e, userDtos.get(e.initiatorId()))).toList());
     }
 
     @Override
@@ -193,25 +191,11 @@ public class CompilationServiceImpl implements CompilationService {
                             .getOrDefault(c.getId(), List.of());
 
                     List<EventShortDto> eventShortDtos = eventsList.stream()
-                            .map(e -> toEventShortDto(e, userDtoMap.get(e.initiatorId())))
+                            .map(e -> EventDtoMapper.toEventShortDto(e, userDtoMap.get(e.initiatorId())))
                             .toList();
 
                     return CompilationMapper.toDto(c, eventShortDtos);
                 })
                 .toList();
-    }
-
-    private EventShortDto toEventShortDto(EventInternalDto internalDto, UserShortDto userDto) {
-        return new EventShortDto(
-                internalDto.id(),
-                internalDto.title(),
-                internalDto.annotation(),
-                internalDto.category(),
-                userDto,
-                internalDto.paid(),
-                internalDto.eventDate(),
-                internalDto.views(),
-                internalDto.confirmedRequests()
-        );
     }
 }
