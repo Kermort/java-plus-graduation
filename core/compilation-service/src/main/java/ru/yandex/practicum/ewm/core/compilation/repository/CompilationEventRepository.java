@@ -7,17 +7,8 @@ import ru.yandex.practicum.ewm.core.compilation.model.CompilationEvent;
 import ru.yandex.practicum.ewm.core.compilation.model.CompilationEventCompositeKey;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CompilationEventRepository extends JpaRepository<CompilationEvent, CompilationEventCompositeKey> {
-    @Query("""
-            SELECT ce
-            FROM CompilationEvent ce
-            WHERE ce.compilationId = :compilationId AND ce.eventId = :eventId
-            """)
-    Optional<CompilationEvent> findByCompilationIdAndEventId(@Param("compilationId") Long compilationId,
-                                                             @Param("eventId") Long eventId);
-
     @Query("""
             SELECT ce
             FROM CompilationEvent ce
