@@ -9,17 +9,121 @@ spring:
   cloud:
     gateway:
       discovery.locator.enabled: true
+      server:
+        webflux:
+          default-filters:
+            - name: Retry
+              args:
+                retries: 3
+                statuses:
+                  - SERVICE_UNAVAILABLE # 503
+                  - BAD_GATEWAY         # 502
+                  - GATEWAY_TIMEOUT     # 504
+                methods:
+                  - GET
+                backoff:
+                  firstBackoff: 25ms
+                  maxBackoff: 300ms
+                  factor: 2
+                  basedOnPreviousValue: false
 
       routes:
-        - id: main_service_route
-          uri: lb://main-service
+        # request routes
+        - id: request_service_owner_route
+          uri: lb://request-service
           predicates:
-            - Path=/**
-#        - id: stats-server_route
-#          uri: lb://stats-server
+            - Path=/users/{userId}/events/{eventId}/requests/**
+          order: 0
+
+        - id: request_service_requests_private_route
+          uri: lb://request-service
+          predicates:
+            - Path=/users/{userId}/requests/**
+          order: 10
+
+        # user routes
+        - id: user_service_users_admin_route
+          uri: lb://user-service
+          predicates:
+            - Path=/admin/users/**
+          order: 50
+
+        # event routes
+        - id: event_service_categories_admin_route
+          uri: lb://event-service
+          predicates:
+            - Path=/admin/categories/**
+          order: 60
+
+        - id: event_service_comments_admin_route
+          uri: lb://event-service
+          predicates:
+            - Path=/admin/comments/**
+          order: 20
+
+        - id: event_service_events_admin_route
+          uri: lb://event-service
+          predicates:
+            - Path=/admin/events/**
+          order: 80
+
+        - id: event_service_categories_public_route
+          uri: lb://event-service
+          predicates:
+            - Path=/categories/**
+          order: 110
+
+        - id: event_service_events_public_route
+          uri: lb://event-service
+          predicates:
+            - Path=/events/**
+          order: 120
+
+        - id: event_service_events_private_route
+          uri: lb://event-service
+          predicates:
+            - Path=/users/{userId}/events/**
+          order: 40
+
+        - id: event_service_comments_public_route
+          uri: lb://event-service
+          predicates:
+            - Path=/users/{userId}/comments/**
+          order: 30
+
+        # compilation routes
+        - id: compilation_service_compilations_admin_route
+          uri: lb://compilation-service
+          predicates:
+            - Path=/admin/compilations/**
+          order: 70
+
+        - id: compilation_service_compilations_public_route
+          uri: lb://compilation-service
+          predicates:
+            - Path=/compilations/**
+          order: 100
 
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+resilence4j:
+  loadbalancer:
+    circuitbreaker:
+      configs:
+        default:
+          slidingWindowType: COUNT_BASED
+          slidingWindowSize: 20
+          failureRateThreshold: 50
+          waitDurationInOpenState: 10s
+          permittedNumberOfCallsInHalfOpenState: 3
+          slowCallRateThreshold: 50
+          slowCallDurationThreshold: 2s
+
+    timelimiter:
+      configs:
+        default:
+          timeoutDuration: 4s
 
 server:
   port: 8080
