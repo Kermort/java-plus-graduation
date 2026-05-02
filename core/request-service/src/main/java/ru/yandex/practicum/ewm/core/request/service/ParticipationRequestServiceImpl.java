@@ -3,6 +3,9 @@ package ru.yandex.practicum.ewm.core.request.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.ewm.stats.grpc.ActionTypeProto;
+import ru.practicum.ewm.stats.grpc.UserActionProto;
+import ru.yandex.practicum.CollectorClient;
 import ru.yandex.practicum.ewm.api.event.EventFeignClient;
 import ru.yandex.practicum.ewm.api.event.dto.EventFullDto;
 import ru.yandex.practicum.ewm.api.user.UserFeignClient;
@@ -31,6 +34,7 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
     private final ParticipationRequestValidator participationRequestValidator;
     private final UserFeignClient userClient;
     private final EventFeignClient eventClient;
+    private final CollectorClient collectorClient;
 
     @Override
     public ParticipationRequestDto add(Long requesterId, Long eventId) {
@@ -91,7 +95,11 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
         ParticipationRequest saved = requestRepository.save(newRequest);
         log.info("Запрос на участие создан: requestId={}, requesterId={}, eventId={}",
                 saved.getId(), requesterId, eventId);
-
+        collectorClient.collectUserAction(UserActionProto.newBuilder()
+                .setUserId(requesterId)
+                .setEventId(eventId)
+                .setActionType(ActionTypeProto.ACTION_REGISTER)
+                .build());
         return ParticipationRequestMapper.toDto(saved);
     }
 
@@ -289,5 +297,13 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
                         id -> id,
                         id -> map.getOrDefault(id, 0L)
                 ));
+    }
+
+    @Override
+    public boolean checkParticipation(long userId, long eventId) {
+        ParticipationRequest request = requestRepository.findByRequesterIdAndEventId(userId, eventId)
+                .orElseThrow(() -> new NotFoundException("request not found"));
+
+        return request.getStatus().equals(ParticipationRequestStatus.CONFIRMED);
     }
 }

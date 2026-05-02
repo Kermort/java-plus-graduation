@@ -28,8 +28,21 @@ public class EventsPublicController {
 
     @GetMapping("/{id}")
     public EventFullDto getById(@PathVariable Long id,
-                                HttpServletRequest request) {
+                                HttpServletRequest request,
+                                @RequestHeader("X-EWM-USER-ID") long userId) {
         log.info("GET /events/{}", id);
-        return eventPublicService.getById(id, request);
+        return eventPublicService.getById(id, userId, request);
+    }
+
+    @GetMapping("/recommendations")
+    public List<EventShortDto> getRecommendations(@RequestHeader("X-EWM-USER-ID") long userId) {
+        log.info("[Event public controller] get recommendations");
+        return eventPublicService.getRecommendations(userId);
+    }
+
+    @PutMapping("/{eventId}/like")
+    public void sendLike(@RequestHeader("X-EWM-USER-ID") long userId, @PathVariable long eventId) {
+        log.info("[Event public controller] send like");
+        eventPublicService.sendLike(userId, eventId);
     }
 }

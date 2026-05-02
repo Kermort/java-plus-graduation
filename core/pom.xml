@@ -18,6 +18,10 @@
         <module>request-service</module>
         <module>event-service</module>
         <module>compilation-service</module>
+        <module>collector</module>
+        <module>serialization</module>
+        <module>aggregator</module>
+        <module>analyzer</module>
     </modules>
 
 </project>

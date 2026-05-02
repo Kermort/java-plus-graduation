@@ -15,7 +15,6 @@ import ru.yandex.practicum.ewm.core.event.model.Events;
 import ru.yandex.practicum.ewm.api.event.dto.EventFullDto;
 import ru.yandex.practicum.ewm.api.event.dto.UpdateEventAdminRequest;
 import ru.yandex.practicum.ewm.api.event.enums.EventState;
-import ru.yandex.practicum.ewm.api.event.enums.StateActionAdminUpdateEvent;
 import ru.yandex.practicum.ewm.core.event.model.params.AdminEventSearchParams;
 import ru.yandex.practicum.ewm.core.category.repository.CategoryRepository;
 import ru.yandex.practicum.ewm.core.event.repository.EventsRepository;

@@ -13,7 +13,7 @@ public interface EventsMapper {
             expression = "java(new CategoryDto(event.getCategory().getId(), event.getCategory().getName()))")
     @Mapping(target = "initiator",
             expression = "java(new UserShortDto(userDto.id(), userDto.name()))")
-    @Mapping(target = "views", ignore = true)
+
     @Mapping(target = "confirmedRequests", ignore = true)
     @Mapping(source = "event.id", target = "id")
     EventShortDto toShortDto(Events event, UserShortDto userDto);
@@ -22,7 +22,7 @@ public interface EventsMapper {
             expression = "java(new CategoryDto(eventInternalDto.category().getId(), eventInternalDto.category().getName()))")
     @Mapping(target = "initiator",
             expression = "java(userShortDto)")
-    @Mapping(target = "views", ignore = true)
+
     @Mapping(target = "confirmedRequests", ignore = true)
     @Mapping(source = "eventInternalDto.id", target = "id")
     EventShortDto toShortDto(EventInternalDto eventInternalDto, UserShortDto userShortDto);
@@ -32,7 +32,7 @@ public interface EventsMapper {
             expression = "java(new CategoryDto(event.getCategory().getId(), event.getCategory().getName()))")
     @Mapping(target = "initiator",
             expression = "java(userDto)")
-    @Mapping(target = "views", ignore = true)
+    @Mapping(target = "rating", ignore = true)
     @Mapping(target = "confirmedRequests", ignore = true)
     @Mapping(source = "event.id", target = "id")
     EventFullDto toFullDto(Events event, UserShortDto userDto);
@@ -41,7 +41,7 @@ public interface EventsMapper {
             expression = "java(new CategoryDto(event.getCategory().getId(), event.getCategory().getName()))")
     @Mapping(target = "initiatorId",
             expression = "java(event.getInitiatorId())")
-    @Mapping(target = "views", ignore = true)
+    @Mapping(target = "rating", ignore = true)
     @Mapping(target = "confirmedRequests", ignore = true)
     @Mapping(source = "event.id", target = "id")
     EventInternalDto toInternalDto(Events event);
