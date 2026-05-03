@@ -3,16 +3,16 @@ package ru.yandex.practicum.ewm.core.aggregator.repository.impl;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.ewm.core.aggregator.repository.EventWeightSumRepository;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryEventWeightSumRepository implements EventWeightSumRepository {
     //Map<eventId, weightSum>
-    private final Map<Long, Double> eventWeightSums = new HashMap<>();
+    private final Map<Long, Double> eventWeightSums = new ConcurrentHashMap<>();
 
     @Override
     public double findWeightSum(long eventId) {

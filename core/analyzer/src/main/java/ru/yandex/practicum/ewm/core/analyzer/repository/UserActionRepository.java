@@ -28,8 +28,8 @@ public interface UserActionRepository extends JpaRepository<UserAction, Long> {
 
     @Query("SELECT ua.eventId " +
             "FROM UserAction ua " +
-            "WHERE ua.eventId = :eventId " +
+            "WHERE ua.userId = :userId " +
             "ORDER BY ua.actionTime DESC " +
             "LIMIT :limit")
-    Set<Long> findRecentlyInteractedEvents(@Param("eventId") long eventId, @Param("limit") int limit);
+    Set<Long> findRecentlyInteractedEvents(@Param("userId") long userId, @Param("limit") int limit);
 }

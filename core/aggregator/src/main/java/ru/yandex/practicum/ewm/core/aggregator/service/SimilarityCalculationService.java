@@ -1,11 +1,13 @@
 package ru.yandex.practicum.ewm.core.aggregator.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.stats.kafka.ActionTypeAvro;
 import ru.practicum.ewm.stats.kafka.EventSimilarityAvro;
 import ru.practicum.ewm.stats.kafka.UserActionAvro;
+import ru.yandex.practicum.ewm.core.aggregator.config.AggregatorProperties;
 import ru.yandex.practicum.ewm.core.aggregator.kafka.EventsSimilarityProducer;
 import ru.yandex.practicum.ewm.core.aggregator.repository.EventPairMinWeightSumsRepository;
 import ru.yandex.practicum.ewm.core.aggregator.repository.EventWeightSumRepository;
@@ -17,42 +19,18 @@ import java.util.Map;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SimilarityCalculationService {
     private final EventWeightSumRepository eventWeightSumRepository;
     private final UserEventWeightRepository userEventWeightRepository;
     private final EventPairMinWeightSumsRepository eventPairMinWeightSumsRepository;
     private final EventsSimilarityProducer producer;
-
-    @Value("${aggregator.recommendations.action-weights.VIEW}")
-    private double viewWeight = 0.4;
-
-    @Value("${aggregator.recommendations.action-weights.REGISTER}")
-    private double registerWeight = 0.8;
-
-    @Value("${aggregator.recommendations.action-weights.LIKE}")
-    private double likeWeight = 1.0;
-
-    public SimilarityCalculationService(
-            EventWeightSumRepository eventWeightSumRepository,
-            UserEventWeightRepository userEventWeightRepository,
-            EventPairMinWeightSumsRepository eventPairMinWeightSumsRepository,
-            EventsSimilarityProducer producer) {
-        this.eventWeightSumRepository = eventWeightSumRepository;
-        this.userEventWeightRepository = userEventWeightRepository;
-        this.eventPairMinWeightSumsRepository = eventPairMinWeightSumsRepository;
-        this.producer = producer;
-    }
-
+    private final AggregatorProperties aggregatorProperties;
 
     public void processMessage(UserActionAvro message) {
         //получаем сохраненный вес
         double savedWeight = userEventWeightRepository.findWeight(message.getUserId(), message.getEventId());
-        double newWeight = viewWeight;
-        if (message.getActionType() == ActionTypeAvro.REGISTER) {
-            newWeight = registerWeight;
-        } else if (message.getActionType() == ActionTypeAvro.LIKE) {
-            newWeight = likeWeight;
-        }
+        double newWeight = aggregatorProperties.getActionWeightByAvroType(message.getActionType());
         if (newWeight <= savedWeight) {
             //записанный вес больше или равен новому. пересчет не требуется
             return;

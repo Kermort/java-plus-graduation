@@ -5,11 +5,12 @@ import ru.yandex.practicum.ewm.core.aggregator.repository.EventPairMinWeightSums
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class InMemoryEventPairMinWeightSumsRepository implements EventPairMinWeightSumsRepository {
     //Map<event_A_id, Map<event_B_id, sum>>
-    private final Map<Long, Map<Long, Double>> eventPairSums = new HashMap<>();
+    private final Map<Long, Map<Long, Double>> eventPairSums = new ConcurrentHashMap<>();
 
     @Override
     public Map<Long, Double> updateWithDeltas(long eventId, Map<Long, Double> deltas) {

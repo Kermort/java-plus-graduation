@@ -4,14 +4,13 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.ewm.core.aggregator.repository.UserEventWeightRepository;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class InMemoryUserEventWeightRepository implements UserEventWeightRepository {
     //Map<userId, Map<eventId, weight>>
-    private final Map<Long, Map<Long, Double>> userEventWeights = new HashMap<>();
+    private final Map<Long, Map<Long, Double>> userEventWeights = new ConcurrentHashMap<>();
 
     @Override
     public double findWeight(long userId, long eventId) {

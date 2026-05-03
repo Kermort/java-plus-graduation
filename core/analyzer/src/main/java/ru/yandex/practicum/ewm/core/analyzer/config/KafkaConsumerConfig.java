@@ -25,7 +25,7 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConsumerFactory<String, UserActionAvro> userActionConsumerFactory() {
-        Map<String, Object> props = new HashMap<>(kafkaProperties.buildConsumerProperties());
+        Map<String, Object> props = new HashMap<>(kafkaProperties.buildConsumerProperties(null));
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, UserActionAvroDeserializer.class);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props);
@@ -40,7 +40,7 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConsumerFactory<String, EventSimilarityAvro> eventSimilarityConsumerFactory() {
-        Map<String, Object> props = new HashMap<>(kafkaProperties.buildConsumerProperties());
+        Map<String, Object> props = new HashMap<>(kafkaProperties.buildConsumerProperties(null));
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, EventSimilarityAvroDeserializer.class);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props);

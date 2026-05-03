@@ -10,13 +10,9 @@ import ru.yandex.practicum.ewm.core.aggregator.service.SimilarityCalculationServ
 @Slf4j
 @Component
 public class UserActionsKafkaConsumer {
-    private final String topic;
     private final SimilarityCalculationService calcService;
 
-    public UserActionsKafkaConsumer(
-            @Value("${aggregator.kafka.topic.user-actions}") String topic,
-            SimilarityCalculationService calcService) {
-        this.topic = topic;
+    public UserActionsKafkaConsumer(SimilarityCalculationService calcService) {
         this.calcService = calcService;
     }
 
