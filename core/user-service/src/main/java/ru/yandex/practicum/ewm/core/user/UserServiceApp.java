@@ -8,6 +8,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients(basePackages = "ru.yandex.practicum")
 public class UserServiceApp {
     public static void main(String[] args) {
-        SpringApplication.run(UserServiceApp.class);
+        SpringApplication.run(UserServiceApp.class, args);
     }
 }

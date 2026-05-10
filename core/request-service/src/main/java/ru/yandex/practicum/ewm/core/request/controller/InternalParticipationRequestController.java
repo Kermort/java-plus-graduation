@@ -43,4 +43,11 @@ public class InternalParticipationRequestController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @GetMapping("/participation")
+    ResponseEntity<Boolean> checkParticipation(@RequestParam("userId") long userId, @RequestParam("eventId") long eventId) {
+        log.info("[request controller (internal)] count confirmed requests, eventId={}", eventId);
+        boolean result = requestService.checkParticipation(userId, eventId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
 }

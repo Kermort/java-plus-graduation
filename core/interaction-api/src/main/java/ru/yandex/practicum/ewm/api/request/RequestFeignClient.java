@@ -16,4 +16,7 @@ public interface RequestFeignClient {
 
     @GetMapping("/confirmed-single")
     ResponseEntity<Long> countConfirmedRequestsByEventId(@RequestParam Long eventId);
+
+    @GetMapping("/participation")
+    ResponseEntity<Boolean> checkParticipation(@RequestParam Long userId, @RequestParam Long eventId);
 }

@@ -14,7 +14,6 @@ import ru.yandex.practicum.ewm.api.event.EventFeignClient;
 import ru.yandex.practicum.ewm.api.event.dto.EventInternalDto;
 import ru.yandex.practicum.ewm.api.exception.ConflictException;
 import ru.yandex.practicum.ewm.api.exception.NotFoundException;
-import ru.yandex.practicum.ewm.api.exception.ValidationException;
 import ru.yandex.practicum.ewm.api.user.UserFeignClient;
 import ru.yandex.practicum.ewm.api.user.dto.UserShortDto;
 import ru.yandex.practicum.ewm.core.compilation.mapper.CompilationMapper;

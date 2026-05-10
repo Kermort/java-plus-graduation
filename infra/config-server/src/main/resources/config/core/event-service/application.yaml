@@ -34,8 +34,20 @@ eureka:
 server:
   port: 0
 
+grpc:
+  client:
+    collector:
+      address: 'discovery:///collector'
+      negotiation-type: PLAINTEXT
+    analyzer:
+      address: 'discovery:///analyzer'
+      negotiation-type: PLAINTEXT
+
 logging:
   level:
     root: INFO
     org.hibernate: ERROR
     org.hibernate.SQL: OFF
+
+event-service:
+  default-max-results: 10

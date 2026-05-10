@@ -16,7 +16,6 @@ public class EventDtoMapper {
                 userDto,
                 internalDto.paid(),
                 internalDto.eventDate(),
-                internalDto.views(),
                 internalDto.confirmedRequests()
         );
     }

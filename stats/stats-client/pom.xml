@@ -31,6 +31,24 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>ru.yandex.practicum</groupId>
+            <artifactId>serialization</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.devh</groupId>
+            <artifactId>grpc-client-spring-boot-starter</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-services</artifactId>
+            <version>1.63.0</version>
+        </dependency>
+
         <!-- Web для RestTemplate/WebClient -->
         <dependency>
             <groupId>org.springframework</groupId>

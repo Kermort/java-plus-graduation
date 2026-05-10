@@ -15,7 +15,7 @@ public record EventInternalDto(
 
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime eventDate,
-        Long views,
+        Double rating,
         Long confirmedRequests
 ) {
 }

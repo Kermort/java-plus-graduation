@@ -34,8 +34,24 @@ eureka:
 server:
   port: 0
 
+grpc:
+  client:
+    collector:
+      address: 'discovery:///collector'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+    analyzer:
+      address: 'discovery:///analyzer'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+
 logging:
   level:
     root: INFO
     org.hibernate: ERROR
     org.hibernate.SQL: OFF
+
+event-service:
+  default-max-results: 10
